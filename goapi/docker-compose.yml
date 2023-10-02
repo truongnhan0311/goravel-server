@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  go_api:
+    container_name: go_api
+    build:
+      context: .
+    ports:
+      - 3100:3000
+    volumes:
+      - ./.env:/www/.env
+    restart: always
+  go_mysql:
+    restart: always
+    container_name: go_mysql
+    image: mysql:latest
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 3407:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=goravel
+      - MYSQL_USER=goravel
+      - MYSQL_PASSWORD=goravel
+  go_redis:
+    container_name: go_redis
+    image: redis:7.0-alpine
+    restart: always
+    ports:
+      - 6370:6379
